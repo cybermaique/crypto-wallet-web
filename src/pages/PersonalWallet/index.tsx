@@ -79,7 +79,7 @@ function PersonalWallet() {
     key: string;
     direction: 'ascending' | 'descending';
   } | null>({
-    key: 'percentage_invested',
+    key: 'percentageInvested',
     direction: 'descending',
   });
 
@@ -116,19 +116,16 @@ function PersonalWallet() {
       <Header data={globalData} />
       <Box sx={{ mt: 4, mb: 2 }}>
         <Typography variant="h4" component="h1" gutterBottom>
-          Minha wallet pessoal
+          Minha wallet pessoal: {cryptoData?.length}
         </Typography>
       </Box>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell
-                onClick={() => requestSort('market_cap_rank')}
-                style={{ cursor: 'pointer' }}
-              >
+              <TableCell onClick={() => requestSort('marketCapRank')} style={{ cursor: 'pointer' }}>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  {sortConfig?.key === 'market_cap_rank' &&
+                  {sortConfig?.key === 'marketCapRank' &&
                     (sortConfig.direction === 'ascending' ? (
                       <ArrowDropUpRoundedIcon />
                     ) : (
@@ -153,11 +150,11 @@ function PersonalWallet() {
                 </Box>
               </TableCell>
               <TableCell
-                onClick={() => requestSort('percentage_invested')}
+                onClick={() => requestSort('percentageInvested')}
                 style={{ cursor: 'pointer' }}
               >
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  {sortConfig?.key === 'percentage_invested' &&
+                  {sortConfig?.key === 'percentageInvested' &&
                     (sortConfig.direction === 'ascending' ? (
                       <ArrowDropUpRoundedIcon />
                     ) : (
@@ -168,9 +165,9 @@ function PersonalWallet() {
                   </Typography>
                 </Box>
               </TableCell>
-              <TableCell onClick={() => requestSort('current_price')} style={{ cursor: 'pointer' }}>
+              <TableCell onClick={() => requestSort('currentPrice')} style={{ cursor: 'pointer' }}>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  {sortConfig?.key === 'current_price' &&
+                  {sortConfig?.key === 'currentPrice' &&
                     (sortConfig.direction === 'ascending' ? (
                       <ArrowDropUpRoundedIcon />
                     ) : (
@@ -182,11 +179,11 @@ function PersonalWallet() {
                 </Box>
               </TableCell>
               <TableCell
-                onClick={() => requestSort('price_change_percentage_24h')}
+                onClick={() => requestSort('priceChangePercentage24h')}
                 style={{ cursor: 'pointer' }}
               >
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  {sortConfig?.key === 'price_change_percentage_24h' &&
+                  {sortConfig?.key === 'priceChangePercentage24h' &&
                     (sortConfig.direction === 'ascending' ? (
                       <ArrowDropUpRoundedIcon />
                     ) : (
@@ -198,11 +195,11 @@ function PersonalWallet() {
                 </Box>
               </TableCell>
               <TableCell
-                onClick={() => requestSort('price_change_percentage_7d_in_currency')}
+                onClick={() => requestSort('priceChangePercentage7dInCurrency')}
                 style={{ cursor: 'pointer' }}
               >
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  {sortConfig?.key === 'price_change_percentage_7d_in_currency' &&
+                  {sortConfig?.key === 'priceChangePercentage7dInCurrency' &&
                     (sortConfig.direction === 'ascending' ? (
                       <ArrowDropUpRoundedIcon />
                     ) : (
@@ -213,9 +210,9 @@ function PersonalWallet() {
                   </Typography>
                 </Box>
               </TableCell>
-              <TableCell onClick={() => requestSort('market_cap')} style={{ cursor: 'pointer' }}>
+              <TableCell onClick={() => requestSort('marketCap')} style={{ cursor: 'pointer' }}>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  {sortConfig?.key === 'market_cap' &&
+                  {sortConfig?.key === 'marketCap' &&
                     (sortConfig.direction === 'ascending' ? (
                       <ArrowDropUpRoundedIcon />
                     ) : (
@@ -230,11 +227,11 @@ function PersonalWallet() {
                 <Typography fontWeight="bold">Graph 7D</Typography>
               </TableCell>
               <TableCell
-                onClick={() => requestSort('percentage_supply_consumed')}
+                onClick={() => requestSort('percentageSupplyConsumed')}
                 style={{ cursor: 'pointer' }}
               >
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  {sortConfig?.key === 'percentage_supply_consumed' &&
+                  {sortConfig?.key === 'percentageSupplyConsumed' &&
                     (sortConfig.direction === 'ascending' ? (
                       <ArrowDropUpRoundedIcon />
                     ) : (
@@ -246,11 +243,11 @@ function PersonalWallet() {
                 </Box>
               </TableCell>
               <TableCell
-                onClick={() => requestSort('ath_change_percentage')}
+                onClick={() => requestSort('athChangePercentage')}
                 style={{ cursor: 'pointer' }}
               >
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  {sortConfig?.key === 'ath_change_percentage' &&
+                  {sortConfig?.key === 'athChangePercentage' &&
                     (sortConfig.direction === 'ascending' ? (
                       <ArrowDropUpRoundedIcon />
                     ) : (
@@ -351,7 +348,6 @@ function PersonalWallet() {
                         backgroundColor: getBackgroundColorCell(coin.athChangePercentage, false),
                       }}
                     >
-                      {' '}
                       {coin.athChangePercentage} %
                     </TableCell>
                   </TableRow>

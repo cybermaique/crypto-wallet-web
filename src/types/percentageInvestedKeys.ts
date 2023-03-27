@@ -7,7 +7,7 @@ export type PercentageInvestedKey =
   | 'gns'
   | 'ckb'
   | 'atom'
-  | 'fetch'
+  | 'fet'
   | 'rmrk'
   | 'vai'
   | 'rndr'

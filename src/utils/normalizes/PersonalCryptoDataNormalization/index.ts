@@ -10,7 +10,7 @@ const percentageInvested: Record<PercentageInvestedKey, number> = {
   gns: 5,
   ckb: 5,
   atom: 5,
-  fetch: 5,
+  fet: 5,
   rmrk: 5,
   vai: 5,
   rndr: 2.5,

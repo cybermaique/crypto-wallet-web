@@ -8,10 +8,10 @@ const cryptoIds = {
   mnw: 'morpheus-network',
   // 5%
   rose: 'oasis-network',
-  gns: 'gns',
+  gns: 'gains-network',
   ckb: 'nervos-network',
   atom: 'cosmos',
-  fetch: 'fetchai',
+  fet: 'fetch-ai',
   rmrk: 'rmrk',
   vai: 'vaiot',
   // 2.5%
@@ -19,12 +19,12 @@ const cryptoIds = {
   dydx: 'dydx',
   uos: 'ultra',
   rio: 'realio-network',
-  chng: 'chaing',
+  chng: 'chainge-finance',
   trias: 'trias-token',
-  azero: 'aleph-azero',
+  azero: 'aleph-zero',
   wit: 'witnet',
   dmtr: 'dimitra',
-  dag: 'constellation',
+  dag: 'constellation-labs',
 };
 
 const getPersonalCryptoData = async () => {
