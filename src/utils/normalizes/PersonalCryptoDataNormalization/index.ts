@@ -1,5 +1,5 @@
-import { PercentageInvestedKey } from "../../../types/percentageInvestedKeys";
-import { PersonalCryptoTypes } from "../../../types/personalCryptoTypes";
+import { PercentageInvestedKey } from '../../../types/percentageInvestedKeys';
+import { PersonalCryptoTypes } from '../../../types/personalCryptoTypes';
 
 const percentageInvested: Record<PercentageInvestedKey, number> = {
   near: 10,
@@ -25,23 +25,23 @@ const percentageInvested: Record<PercentageInvestedKey, number> = {
   dag: 2.5,
 };
 
-export const normalizePersonalCryptoData = (rawData: any[]): PersonalCryptoTypes => {
+const normalizePersonalCryptoData = (rawData: any[]): PersonalCryptoTypes => {
   return rawData.map((crypto: any) => {
     const normalizedCrypto = {
-      ath_change_percentage: crypto.ath_change_percentage,
+      athChangePercentage: crypto.ath_change_percentage,
       id: crypto.id,
       symbol: crypto.symbol,
       name: crypto.name,
       image: crypto.image,
-      current_price: crypto.current_price,
-      market_cap: crypto.market_cap,
-      market_cap_rank: crypto.market_cap_rank,
-      percentage_invested: crypto.percentage_invested,
-      percentage_supply_consumed: (crypto.circulating_supply / crypto.max_supply) * 100,
-      price_change_percentage_24h: crypto.price_change_percentage_24h,
-      price_change_percentage_7d_in_currency: crypto.price_change_percentage_7d_in_currency,
-      last_updated: crypto.last_updated,
-      sparkline_in_7d: {
+      currentPrice: crypto.current_price,
+      marketCap: crypto.market_cap,
+      marketCapRank: crypto.market_cap_rank,
+      percentageInvested: crypto.percentage_invested,
+      percentageSupplyConsumed: (crypto.circulating_supply / crypto.max_supply) * 100,
+      priceChangePercentage24h: crypto.price_change_percentage_24h,
+      priceChangePercentage7dInCurrency: crypto.price_change_percentage_7d_in_currency,
+      lastUpdated: crypto.last_updated,
+      sparklineIn7d: {
         price: crypto.sparkline_in_7d.price,
       },
     };
@@ -50,10 +50,12 @@ export const normalizePersonalCryptoData = (rawData: any[]): PersonalCryptoTypes
     if (percentageInvested[percentageInvestedKey]) {
       return {
         ...normalizedCrypto,
-        percentage_invested: percentageInvested[percentageInvestedKey],
+        percentageInvested: percentageInvested[percentageInvestedKey],
       };
     }
 
     return normalizedCrypto;
   });
 };
+
+export default normalizePersonalCryptoData;

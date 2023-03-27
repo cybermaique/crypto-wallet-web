@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 export type InputData = {
   data: {
     active_cryptocurrencies: number;

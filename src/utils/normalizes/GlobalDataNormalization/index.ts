@@ -1,10 +1,10 @@
-import { NormalizedGlobalData } from "../../../types/globalCryptoTypes";
-import { InputData } from "./types";
+import { NormalizedGlobalData } from '../../../types/globalCryptoTypes';
+import { InputData } from './types';
 
 const formatCurrency = (value: number): string => {
-  return value.toLocaleString("en-US", {
-    style: "currency",
-    currency: "USD",
+  return value.toLocaleString('en-US', {
+    style: 'currency',
+    currency: 'USD',
     maximumFractionDigits: 0,
   });
 };
