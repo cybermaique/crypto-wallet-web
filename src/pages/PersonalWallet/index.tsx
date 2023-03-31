@@ -11,31 +11,36 @@ import {
   TableHead,
   TableRow,
   Avatar,
+  Button,
 } from '@mui/material';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid } from 'recharts';
 import { useTheme } from '@mui/material/styles';
 import ArrowDropDownRoundedIcon from '@mui/icons-material/ArrowDropDownRounded';
 import ArrowDropUpRoundedIcon from '@mui/icons-material/ArrowDropUpRounded';
-import getCryptoDataById from '../../services/getCryptoDataById';
 import { PersonalCryptoTypes } from '../../types/personalCryptoTypes';
-import getPersonalCryptoData from '../../services/getPersonalCrypto';
+import getPersonalCryptoData from '../../services/getPersonalCryptoData';
 import Header from '../../components/Header';
 import normalizePersonalCryptoData from '../../utils/normalizes/PersonalCryptoDataNormalization';
-import { NormalizedGlobalData } from '../../types/globalCryptoTypes';
+import { GlobalData } from '../../types/globalCryptoTypes';
+import getCoinData from '../../services/getDescriptionData';
+import cryptoIdDataNormalization from '../../utils/normalizes/CryptoIdDataNormalization';
+import { CoinDataTypes } from '../../types/cryptoIdDataTypes';
 
 function PersonalWallet() {
   const theme = useTheme();
 
-  const [cryptoData, setCryptoData] = useState<PersonalCryptoTypes | null>(null);
+  const [cryptoData, setCryptoData] = useState<PersonalCryptoTypes[] | null>(null);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [globalData, setGlobalData] = useState<NormalizedGlobalData>({
+  const [globalData, setGlobalData] = useState<GlobalData>({
     marketCap: '',
     totalCryptocurrencies: 0,
     totalVolume: '',
     btcDominance: '',
     ethDominance: '',
   });
+
+  const [selectedCoinData, setSelectedCoinData] = useState<CoinDataTypes | null>(null);
 
   const fetchCryptoData = async () => {
     const rawData = await getPersonalCryptoData();
@@ -67,8 +72,11 @@ function PersonalWallet() {
     return `U$${(marketCap / 1e6).toFixed(1)}M`;
   };
 
-  const handleGetCoinData = (id: string) => {
-    getCryptoDataById(id);
+  const handleRowClick = async (id: string) => {
+    setSelectedCoinData(null);
+    const coinData = await getCoinData(id);
+    const normalizedCoinData = cryptoIdDataNormalization(coinData);
+    setSelectedCoinData(normalizedCoinData);
   };
 
   const formatPercentageSupplyConsumed = (percentage: number) => {
@@ -272,7 +280,7 @@ function PersonalWallet() {
                 }));
 
                 return (
-                  <TableRow key={coin.id} onClick={() => handleGetCoinData(coin.id)}>
+                  <TableRow key={coin.id} onClick={() => handleRowClick(coin.id)}>
                     <TableCell align="center">{coin.marketCapRank}</TableCell>
                     <TableCell style={{ whiteSpace: 'nowrap', width: 'fit-content' }}>
                       <Box display="flex" alignItems="center">
@@ -361,6 +369,62 @@ function PersonalWallet() {
           </TableBody>
         </Table>
       </TableContainer>
+      {selectedCoinData && (
+        <Box sx={{ mt: 4 }}>
+          <Typography variant="h6" component="h2" gutterBottom>
+            {selectedCoinData?.name} - {selectedCoinData?.symbol.toUpperCase()}
+          </Typography>
+          <Typography>{selectedCoinData?.description}</Typography>
+          <Box sx={{ mt: 2 }}>
+            {selectedCoinData?.links?.twitterScreenName && (
+              <Button
+                component="a"
+                href={`https://twitter.com/${selectedCoinData.links.twitterScreenName}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                variant="outlined"
+              >
+                Twitter
+              </Button>
+            )}
+            {selectedCoinData?.links?.facebookUsername && (
+              <Button
+                component="a"
+                href={`https://facebook.com/${selectedCoinData.links.facebookUsername}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                variant="outlined"
+              >
+                Facebook
+              </Button>
+            )}
+            {selectedCoinData?.links?.telegramChannelIdentifier && (
+              <Button
+                component="a"
+                href={`https://t.me/${selectedCoinData.links.telegramChannelIdentifier}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                variant="outlined"
+              >
+                Telegram
+              </Button>
+            )}
+            {selectedCoinData?.links?.reposUrl?.github?.length > 0 &&
+              selectedCoinData.links.reposUrl.github.map((repoUrl: string, index: number) => (
+                <Button
+                  key={selectedCoinData.id}
+                  component="a"
+                  href={repoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  variant="outlined"
+                >
+                  GitHub Repo {index + 1}
+                </Button>
+              ))}
+          </Box>
+        </Box>
+      )}
     </Container>
   );
 }

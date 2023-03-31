@@ -1,4 +1,4 @@
-import { NormalizedGlobalData } from '../../../types/globalCryptoTypes';
+import { GlobalData } from '../../../types/globalCryptoTypes';
 import { InputData } from './types';
 
 const formatCurrency = (value: number): string => {
@@ -9,7 +9,7 @@ const formatCurrency = (value: number): string => {
   });
 };
 
-const normalizeGlobalData = ({ data }: InputData): NormalizedGlobalData => {
+const normalizeGlobalData = ({ data }: InputData): GlobalData => {
   return {
     totalCryptocurrencies: data.active_cryptocurrencies,
     marketCap: formatCurrency(data.total_market_cap.usd),

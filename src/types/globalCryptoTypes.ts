@@ -1,4 +1,4 @@
-export type NormalizedGlobalData = {
+export type GlobalData = {
   marketCap: string;
   totalCryptocurrencies: number;
   totalVolume: string;

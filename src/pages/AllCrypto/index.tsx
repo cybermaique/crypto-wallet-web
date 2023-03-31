@@ -17,24 +17,22 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid } from 'recharts';
 import { useTheme } from '@mui/material/styles';
 import ArrowDropDownRoundedIcon from '@mui/icons-material/ArrowDropDownRounded';
 import ArrowDropUpRoundedIcon from '@mui/icons-material/ArrowDropUpRounded';
-import getCryptoDataById from '../../services/getCryptoDataById';
 import getAllCryptoData from '../../services/getAllCryptoData';
 import Header from '../../components/Header';
-import { NormalizedGlobalData } from '../../types/globalCryptoTypes';
+import { GlobalData } from '../../types/globalCryptoTypes';
 import normalizeAllCryptoData from '../../utils/normalizes/AllCryptoDataNormalization';
-import normalizeGlobalData from '../../utils/normalizes/GlobalDataNormalization';
 import { AllCryptoTypes } from '../../types/allCryptoTypes';
 import getGlobalData from '../../services/getGlobalData';
+import formatValue from '../../utils/formatValue';
 
 function AllCrypto() {
   const theme = useTheme();
+  const itemsPerPage = 10;
 
   const [cryptoData, setCryptoData] = useState<AllCryptoTypes | null>(null);
-
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const itemsPerPage = 10;
-  const [totalItems, setTotalItems] = useState<number>(0);
-  const [globalData, setGlobalData] = useState<NormalizedGlobalData>({
+  const [totalCryptocurrencies, setTotalCryptocurrencies] = useState<number>(0);
+  const [globalData, setGlobalData] = useState<GlobalData>({
     marketCap: '',
     totalCryptocurrencies: 0,
     totalVolume: '',
@@ -43,11 +41,10 @@ function AllCrypto() {
   });
 
   const fetchGlobalData = async () => {
-    const rawGlobalCryptoData = await getGlobalData();
-
-    if (rawGlobalCryptoData) {
-      setTotalItems(rawGlobalCryptoData.data.active_cryptocurrencies);
-      setGlobalData(normalizeGlobalData(rawGlobalCryptoData));
+    const data = await getGlobalData();
+    if (data) {
+      setGlobalData(data);
+      setTotalCryptocurrencies(data.totalCryptocurrencies);
     }
   };
 
@@ -74,20 +71,6 @@ function AllCrypto() {
       clearInterval(interval);
     };
   }, [currentPage, fetchCryptoData]);
-
-  const formatMarketCap = (marketCap: number) => {
-    if (marketCap >= 1e12) {
-      return `U$${(marketCap / 1e12).toFixed(1)}T`;
-    }
-    if (marketCap >= 1e9) {
-      return `U$${(marketCap / 1e9).toFixed(1)}B`;
-    }
-    return `U$${(marketCap / 1e6).toFixed(1)}M`;
-  };
-
-  const handleGetCoinData = (id: string) => {
-    getCryptoDataById(id);
-  };
 
   const formatPercentageSupplyConsumed = (percentage: number) => {
     return percentage > 0 && percentage !== Infinity ? `${percentage.toFixed(1)}%` : '-';
@@ -278,7 +261,7 @@ function AllCrypto() {
                 }));
 
                 return (
-                  <TableRow key={coin.id} onClick={() => handleGetCoinData(coin.id)}>
+                  <TableRow key={coin.id}>
                     <TableCell align="center">{coin.marketCapRank}</TableCell>
                     <TableCell style={{ whiteSpace: 'nowrap', width: 'fit-content' }}>
                       <Box display="flex" alignItems="center">
@@ -322,7 +305,7 @@ function AllCrypto() {
                         {coin.priceChangePercentage7dInCurrency?.toFixed(2)}%
                       </Typography>
                     </TableCell>
-                    <TableCell>{formatMarketCap(coin.marketCap)}</TableCell>
+                    <TableCell>{formatValue(coin.marketCap)}</TableCell>
                     <TableCell>
                       <LineChart width={120} height={70} data={normalizedChartData}>
                         <XAxis dataKey="day" hide />
@@ -372,7 +355,7 @@ function AllCrypto() {
           }}
         >
           <Pagination
-            count={totalItems ? Math.ceil(totalItems / itemsPerPage) : 1}
+            count={totalCryptocurrencies ? Math.ceil(totalCryptocurrencies / itemsPerPage) : 1}
             page={currentPage}
             onChange={handlePageChange}
             color="primary" // Modifica a cor das páginas ativas e com foco

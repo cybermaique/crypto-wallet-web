@@ -15,4 +15,4 @@ export type PersonalCryptoTypes = {
   sparklineIn7d: {
     price: number[];
   };
-}[];
+};

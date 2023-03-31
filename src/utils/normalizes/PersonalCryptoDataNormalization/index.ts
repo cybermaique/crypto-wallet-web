@@ -25,7 +25,7 @@ const percentageInvested: Record<PercentageInvestedKey, number> = {
   dag: 2.5,
 };
 
-const normalizePersonalCryptoData = (rawData: any[]): PersonalCryptoTypes => {
+const normalizePersonalCryptoData = (rawData: any[]): PersonalCryptoTypes[] => {
   return rawData.map((crypto: any) => {
     const normalizedCrypto = {
       athChangePercentage: crypto.ath_change_percentage,
