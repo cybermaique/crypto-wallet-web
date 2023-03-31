@@ -1,30 +1,25 @@
-import React from 'react';
 import { AppBar, Toolbar, Typography, Grid } from '@mui/material';
-import { NormalizedGlobalData } from '../../types/globalCryptoTypes';
+import { HeaderProps } from './type';
 
-type HeaderProps = {
-  data: NormalizedGlobalData;
-};
-
-const Header: React.FC<HeaderProps> = ({ data }) => {
+const Header = ({
+  data: { totalCryptocurrencies, marketCap, totalVolume, btcDominance, ethDominance },
+}: HeaderProps) => {
   return (
     <AppBar position="static">
       <Toolbar>
         <Grid container justifyContent="space-between" alignItems="center">
           <Grid item>
-            <Typography variant="h6">
-              Total de Criptomoedas: {data.totalCryptocurrencies}
-            </Typography>
+            <Typography variant="h6">Total de Criptomoedas: {totalCryptocurrencies}</Typography>
           </Grid>
           <Grid item>
-            <Typography variant="h6">Cap. de Mercado: {data.marketCap}</Typography>
+            <Typography variant="h6">Cap. de Mercado: {marketCap}</Typography>
           </Grid>
           <Grid item>
-            <Typography variant="h6">Volume: {data.totalVolume}</Typography>
+            <Typography variant="h6">Volume: {totalVolume}</Typography>
           </Grid>
           <Grid item>
             <Typography variant="h6">
-              Dominância: BTC {data.btcDominance}% ETH {data.ethDominance}%
+              Dominância: BTC {btcDominance}% ETH {ethDominance}%
             </Typography>
           </Grid>
         </Grid>
